@@ -162,6 +162,10 @@
                                 <label for="name" class="col-sm-12 control-label">profile_picture</label>
                                     <div class="col-sm-12">
                                         <input type="file" class="form-control" id="profile_picture1" name="profile_picture1" required>
+                                        <img src="{{asset('avatar_customer/')}}" id="profile_picture1-preview" width="100px" height="100px" alt="">
+                                    </div>
+
+                                        
                                     </div>
                                    
                             </div>
@@ -230,11 +234,11 @@
             //TOMBOL EDIT DATA
             //jika tombol-edit diklik maka
             $(document).on('click', '#tombol-edit', function () {
+                const img = document.getElementById("profile_picture1-preview");
                 let id = $(this).data('value'); //mengambil id dari atribut data-id
                 var url = "{{ route('editDataCustomer', ':id') }}";
                 url.replace('?=id', '');
-                $.ajax({
-                    
+                $.ajax({   
                    url: url.replace(':id', ''),
                     method: "GET",
                     data: {
@@ -248,9 +252,14 @@
                         $('#nama1').val(data.nama); //valuenya menjadi nama yang di edit
                         $('#alamat1').val(data.alamat); //valuenya menjadi alamat yang di edit
                         $('#email1').val(data.email); //valuenya menjadi email yang di edit
+                        var i = data.profile_picture
+                        $(img).attr('src', "{{asset('avatar_customer/')}}"+"/" + i);
                         $('#edit-edit-modal').modal('show'); //modal tampil
+                        // var file = data.profile_picture;
                     }
                 });
+                
+                // img.src = "{{asset('avatar_customer/')}}" + file + ".jpg";
             });
 
             $("form[name='edit-tambah-edit']").on("submit", function(ev) {
